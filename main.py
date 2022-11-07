@@ -7,10 +7,10 @@ CYAN = (0,255,255)
 BLACK = (0,0,0)
 RED = (255,0,0)
 BLUE = (0,0,255)
+LIGHT_GRAY = (211,211,211)
 
-
-
-fps_counter = 0
+player_img = pg.image.load("kar.PNG")
+player_img = pg.transform.scale(player_img, (250,250))
 
 x = 50
 y = 50
@@ -18,33 +18,48 @@ y = 50
 directionx = 1
 directiony = 1
 
+FPS = 120
+clock = pg.time.Clock()
+
+speed = 5
+
 screen = pg.display.set_mode((800,800))
-bilde = "last ned.png"
+
 
 playing = True
 while playing:
+    clock.tick(FPS)
     for event in pg.event.get():
         if event.type == pg.QUIT:
             playing = False
-    screen.fill(BLUE)
+    screen.fill(WHITE)
 
-    fps_counter += 1
-    print(fps_counter)
-
-    #move box
-    x += directionx
-    y += directiony
+#move keys
+    keys = pg.key.get_pressed()
     
 
-    if x > 600:
-        directionx = -1
-    if x < 0:
-        directionx = +1
-    if y > 600:
-        directiony = -1
-    if y < 0:
-        directiony = +1
+    if keys[pg.K_w]:
+        y -= speed
+    if keys[pg.K_a]:
+        x -= speed
+    if keys[pg.K_s]:
+        y += speed
+    if keys[pg.K_d]:
+        x += speed
 
-    box = pg.Rect(x,y, 200,200)
+
+
     
-    pg.display.update()        
+    
+    if x > 650:
+        x = 650
+    if x < -80:
+        x = -80
+    if y > 593:
+        y = 593
+    if y < -75:
+        y = -75
+
+    screen.blit(player_img, (x, y))
+    
+    pg.display.update()    
