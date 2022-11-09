@@ -1,4 +1,5 @@
 import pygame as pg
+from sprites import *
 
 pg.init()
 
@@ -9,19 +10,21 @@ RED = (255,0,0)
 BLUE = (0,0,255)
 LIGHT_GRAY = (211,211,211)
 
-player_img = pg.image.load("kar.PNG")
-player_img = pg.transform.scale(player_img, (250,250))
+all_sprites = pg.sprite.Group()
 
-x = 50
-y = 50
+hero = Player()
+all_sprites.add(hero)
 
-directionx = 1
-directiony = 1
 
 FPS = 120
 clock = pg.time.Clock()
 
-speed = 5
+x = 50
+y = 50
+
+speed = 3
+
+
 
 screen = pg.display.set_mode((800,800))
 
@@ -32,12 +35,11 @@ while playing:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             playing = False
-    screen.fill(WHITE)
+    screen.fill(CYAN)
 
 #move keys
-    keys = pg.key.get_pressed()
+    keys = pg.key.get_pressed() #move keys
     
-
     if keys[pg.K_w]:
         y -= speed
     if keys[pg.K_a]:
@@ -51,15 +53,12 @@ while playing:
 
     
     
-    if x > 650:
-        x = 650
-    if x < -80:
-        x = -80
-    if y > 593:
-        y = 593
-    if y < -75:
-        y = -75
+    
 
-    screen.blit(player_img, (x, y))
+    all_sprites.update()
+
+    all_sprites.draw(screen)
+
+
     
     pg.display.update()    
