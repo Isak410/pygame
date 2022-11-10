@@ -15,14 +15,13 @@ all_sprites = pg.sprite.Group()
 hero = Player()
 all_sprites.add(hero)
 
+enemy = Enemy()
+all_sprites.add(enemy)
+
 
 FPS = 120
 clock = pg.time.Clock()
 
-x = 50
-y = 50
-
-speed = 3
 
 
 
@@ -37,23 +36,7 @@ while playing:
             playing = False
     screen.fill(CYAN)
 
-#move keys
-    keys = pg.key.get_pressed() #move keys
-    
-    if keys[pg.K_w]:
-        y -= speed
-    if keys[pg.K_a]:
-        x -= speed
-    if keys[pg.K_s]:
-        y += speed
-    if keys[pg.K_d]:
-        x += speed
 
-
-
-    
-    
-    
 
     all_sprites.update()
 
