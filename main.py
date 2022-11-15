@@ -27,6 +27,8 @@ enemy_group.add(enemy, enemy2)
 FPS = 120
 clock = pg.time.Clock()
 
+tekst = pg.font.SysFont("Comic Sans MS", 30)
+print(spawn)
 
 
 
@@ -41,6 +43,9 @@ while playing:
             playing = False
     screen.fill(DARKBLUE)
 
+  
+
+
 
 
     all_sprites.update()
@@ -54,10 +59,13 @@ while playing:
 
 
     #lag nye fiender
-    if len(enemy_group) < 50009:
+    if len(enemy_group) < 50000:
         enemy = Enemy()
         all_sprites.add(enemy)
         enemy_group.add(enemy)
+
+
+   
 
  
 
