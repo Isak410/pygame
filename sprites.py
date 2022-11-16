@@ -20,6 +20,7 @@ class Player(pg.sprite.Sprite):
         self.pos = vec(250,250)
         self.rect.center = self.pos
         self.speed = 3
+        self.life = 100
 
     def update(self):
         self.rect.center = self.pos # holder rect på player hver frame

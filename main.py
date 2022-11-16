@@ -11,6 +11,8 @@ BLUE = (0,0,255)
 LIGHT_GRAY = (211,211,211)
 DARKBLUE = (25, 25, 112)
 
+
+
 spawn = 0
 
 all_sprites = pg.sprite.Group()
@@ -34,6 +36,8 @@ print(spawn)
 
 screen = pg.display.set_mode((800,800))
 
+comic_sans30 = pg.font.SysFont("Comic Sans MS", 60)
+
 
 playing = True
 while playing:
@@ -43,7 +47,8 @@ while playing:
             playing = False
     screen.fill(DARKBLUE)
 
-  
+    text_hp = comic_sans30.render(str(hero.life), False, (CYAN))
+    
 
 
 
@@ -55,15 +60,19 @@ while playing:
     if hits:
         for hit in hits:
             spawn += 1
-            print (spawn)
-
+            
+    if hits:
+        hero.life -=1
+        print (hero.life)
+        if hero.life <= 0:
+            playing = False
 
     #lag nye fiender
-    if len(enemy_group) < 50000:
+    if len(enemy_group) < 30:
         enemy = Enemy()
         all_sprites.add(enemy)
         enemy_group.add(enemy)
-
+    screen.blit(text_hp, (10,10))
 
    
 
