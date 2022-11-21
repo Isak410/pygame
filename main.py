@@ -11,6 +11,10 @@ BLUE = (0,0,255)
 LIGHT_GRAY = (211,211,211)
 DARKBLUE = (25, 25, 112)
 
+bg = pg.image.load("spacebg1.jpg")
+
+WIDTH = 1600
+HEIGTH = 800
 
 
 spawn = 0
@@ -32,9 +36,11 @@ clock = pg.time.Clock()
 tekst = pg.font.SysFont("Comic Sans MS", 30)
 print(spawn)
 
+i = 0
 
 
-screen = pg.display.set_mode((800,800))
+
+screen = pg.display.set_mode((1600,800))
 
 comic_sans30 = pg.font.SysFont("Comic Sans MS", 60)
 
@@ -45,7 +51,13 @@ while playing:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             playing = False
-    screen.fill(DARKBLUE)
+    
+    screen.blit(bg, (i,0)) # tegner bakgrunn
+    screen.blit(bg,(WIDTH+i,0))
+    if (i == -WIDTH):
+        screen.blit(bg,(WIDTH+i,0))
+        i=0
+    i -= 1
 
     text_hp = comic_sans30.render(str(hero.life), False, (CYAN))
     
@@ -68,7 +80,7 @@ while playing:
             playing = False
 
     #lag nye fiender
-    if len(enemy_group) < 30:
+    if len(enemy_group) < 8:
         enemy = Enemy()
         all_sprites.add(enemy)
         enemy_group.add(enemy)
