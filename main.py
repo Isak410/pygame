@@ -11,7 +11,7 @@ BLUE = (0,0,255)
 LIGHT_GRAY = (211,211,211)
 DARKBLUE = (25, 25, 112)
 
-bg = pg.image.load("spacebg1.jpg")
+
 
 WIDTH = 1600
 HEIGTH = 800
@@ -39,9 +39,8 @@ print(spawn)
 i = 0
 
 
-
+bg = pg.image.load("spacebg1.jpg")
 screen = pg.display.set_mode((1600,800))
-
 comic_sans30 = pg.font.SysFont("Comic Sans MS", 60)
 
 
@@ -95,5 +94,5 @@ while playing:
   
 
 
-    
+        
     pg.display.update()    
