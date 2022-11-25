@@ -14,9 +14,10 @@ class Game():
         self.i = 0
         self.WIDTH = 1600
         self.HEIGTH = 800
-
-        self.bg = pg.image.load("spacebg1.jpg")
+        
         self.screen = pg.display.set_mode((1600,800))
+        self.bg = pg.image.load("Space Background.png").convert_alpha()
+      
         self.comic_sans30 = pg.font.SysFont("Comic Sans MS", 60)
 
         self.FPS = 120
@@ -26,7 +27,6 @@ class Game():
 
         self.new()
 
-        
 
     def new(self): #ny runde
         self.all_sprites = pg.sprite.Group()
@@ -43,6 +43,7 @@ class Game():
 
         self.run()
 
+
     def run(self): #game loop
         playing = True
         while playing:
@@ -53,9 +54,11 @@ class Game():
     
             self.screen.blit(self.bg, (self.i,0)) # tegner bakgrunn
             self.screen.blit(self.bg,(self.WIDTH+self.i,0))
-            if (self.i == -self.WIDTH):
+            if (self.i <= -self.WIDTH):
                 self.screen.blit(self.bg,(self.WIDTH+self.i,0))
-            self.i -= 1
+                self.i=0
+            self.i -= 3
+            
 
             text_hp = self.comic_sans30.render(str(self.hero.life), False, (self.CYAN))
     
@@ -66,16 +69,20 @@ class Game():
             self.all_sprites.update()
             self.all_sprites.draw(self.screen)
 
-            hits = pg.sprite.spritecollide(self.hero, self.enemy_group,dokill=True)
+            hits = pg.sprite.spritecollide(self.hero, self.enemy_group,dokill=False)
             if hits:
                 for hit in hits:
                     self.spawn += 1
+                hits[0].enemyhealth -= 10
+            
             
             if hits:
-                self.hero.life -=1
+                self.hero.life -=10
                 print (self.hero.life)
                 if self.hero.life <= 0:
                     playing = False
+
+
 
             #lag nye fiender
             if len(self.enemy_group) < 8:
@@ -83,6 +90,8 @@ class Game():
                 self.all_sprites.add(enemy)
                 self.enemy_group.add(enemy)
             self.screen.blit(text_hp, (10,10))
+
+      
     
             pg.display.update()    
 
