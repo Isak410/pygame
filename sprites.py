@@ -9,16 +9,22 @@ player_img = pg.transform.scale(player_img, (80,80))
 enemy_img = pg.image.load("enemy.PNG")
 enemy_img = pg.transform.scale(enemy_img, (70,70))
 
+player_left_img = pg.transform.flip(player_img, True, False)
 
 class Player(pg.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, game):
         pg.sprite.Sprite.__init__(self)
         self.image = player_img
         self.rect = self.image.get_rect()     #hitbox
         self.pos = vec(250,250)
         self.rect.center = self.pos
         self.speed = 3
-        self.life = 10000000
+        self.life = 100
+        self.game = game
+        self.image = player_img
+        self.image_left = player_left_img
+        self.image_right = player_img
+  
 
     def update(self):
         self.rect.center = self.pos # holder rect på player hver frame
@@ -30,8 +36,10 @@ class Player(pg.sprite.Sprite):
             self.pos.y += self.speed
         if keys[pg.K_d]:
             self.pos.x += self.speed
+            self.image = self.image_right
         if keys[pg.K_a]:
             self.pos.x -= self.speed
+            self.image = self.image_left
         if keys[pg.K_LSHIFT]:
             self.speed = 5
         else:

@@ -1,6 +1,11 @@
 import pygame as pg
 from sprites import *
 
+pg.mixer.init()
+pg.mixer.music.load('sang.mp3') 
+
+pg.mixer.music.play(-1) 
+
 class Game():
     def __init__(self): #kjører når vi starter spillet
         pg.init()
@@ -32,7 +37,7 @@ class Game():
         self.all_sprites = pg.sprite.Group()
         self.enemy_group = pg.sprite.Group()
 
-        self.hero = Player()
+        self.hero = Player(self)
         self.all_sprites.add(self.hero)
 
         self.i = 0
@@ -42,6 +47,8 @@ class Game():
         self.tekst = pg.font.SysFont("Comic Sans MS", 30)
 
         self.run()
+
+    
 
 
     def run(self): #game loop
@@ -69,14 +76,14 @@ class Game():
             self.all_sprites.update()
             self.all_sprites.draw(self.screen)
 
-            hits = pg.sprite.spritecollide(self.hero, self.enemy_group,dokill=False)
-            if hits:
-                for hit in hits:
+            self.hits = pg.sprite.spritecollide(self.hero, self.enemy_group,dokill=True)
+            if self.hits:
+                for hit in self.hits:
                     self.spawn += 1
-                hits[0].enemyhealth -= 10
+                self.hits[0].enemyhealth -= 10
             
             
-            if hits:
+            if self.hits:
                 self.hero.life -=10
                 print (self.hero.life)
                 if self.hero.life <= 0:
@@ -91,9 +98,12 @@ class Game():
                 self.enemy_group.add(enemy)
             self.screen.blit(text_hp, (10,10))
 
+            
+        
+
       
     
-            pg.display.update()    
+        pg.display.update()    
 
 
 g = Game()
