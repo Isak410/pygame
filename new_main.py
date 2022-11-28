@@ -6,6 +6,8 @@ pg.mixer.music.load('sang.mp3')
 
 pg.mixer.music.play(-1) 
 
+dead_screen = pg.image.load("dead_screen.jpg")
+
 class Game():
     def __init__(self): #kjører når vi starter spillet
         pg.init()
@@ -45,6 +47,8 @@ class Game():
         self.enemy2 = Enemy2()
         self.enemy_group.add(self.enemy, self.enemy2)
         self.tekst = pg.font.SysFont("Comic Sans MS", 30)
+
+        self.stop = False
 
         self.run()
 
@@ -87,6 +91,7 @@ class Game():
                 self.hero.life -=10
                 print (self.hero.life)
                 if self.hero.life <= 0:
+                    self.stop = True
                     playing = False
 
 
@@ -98,12 +103,40 @@ class Game():
                 self.enemy_group.add(enemy)
             self.screen.blit(text_hp, (10,10))
 
+       
+
+            pg.display.update()    
             
-        
+        if self.stop:
+            self.game_stop()
 
       
     
-        pg.display.update()    
+
+    def game_stop(self):
+        self.game_over = True
+        while self.game_over:
+            self.clock.tick(self.FPS)
+            self.game_over_text = self.comic_sans30.render("Game over, click R to restart", False, (self.DARKBLUE))
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.game_over = False
+                    pg.quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_r:  
+                        self.game_over = False 
+                        self.startover = True
+
+
+
+            self.screen.fill(self.BLACK)
+            self.screen.blit(self.game_over_text,(160,750))  
+            self.screen.blit(dead_screen, (250,150))
+
+            pg.display.update()
+            
+        if self.startover == True:
+            self.new()
 
 
 g = Game()
