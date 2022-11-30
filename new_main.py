@@ -7,6 +7,8 @@ pg.mixer.music.load('sang.mp3')
 pg.mixer.music.play(-1) 
 
 dead_screen = pg.image.load("dead_screen.jpg")
+dead_screen = pg.transform.scale(dead_screen, (500,500))
+
 
 class Game():
     def __init__(self): #kjører når vi starter spillet
@@ -16,7 +18,7 @@ class Game():
         self.BLACK = (0,0,0)
         self.RED = (255,0,0)
         self.BLUE = (0,0,255)
-        self.LIGHT_GRAY = (211,211,211)
+        self.LIGHT_GRAY = (200,196,196)
         self.DARKBLUE = (25, 25, 112)
         self.i = 0
         self.WIDTH = 1600
@@ -129,9 +131,9 @@ class Game():
 
 
 
-            self.screen.fill(self.BLACK)
-            self.screen.blit(self.game_over_text,(160,750))  
-            self.screen.blit(dead_screen, (250,150))
+            self.screen.fill(self.LIGHT_GRAY)
+            self.screen.blit(self.game_over_text,(415,600))  
+            self.screen.blit(dead_screen, (550,25))
 
             pg.display.update()
             
