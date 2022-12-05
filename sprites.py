@@ -9,6 +9,8 @@ player_img = pg.transform.scale(player_img, (80,80))
 enemy_img = pg.image.load("enemy.PNG")
 enemy_img = pg.transform.scale(enemy_img, (70,70))
 
+cake_img = ("cake_img.png")
+
 player_left_img = pg.transform.flip(player_img, True, False)
 
 class Player(pg.sprite.Sprite):
@@ -87,6 +89,24 @@ class Enemy2(pg.sprite.Sprite):
         if self.pos.y < 900:
             self.pos.y = -125
             self.pos.x = randint(100,700)
+
+class Food(pg.sprite.Sprite):
+
+    def __init__(self, game):
+        self.groups = game.all_sprites, game.food_group # legger til i sprite gruppe
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = cake_img
+        self.rect = self.image.get_rect()
+        self.pos = vec(500, randint(0,700)) # start posisjon
+        self.rect.center = self.pos
+
+    def update(self):
+        self.rect.center = self.pos
+
+    def give_health(self):
+        self.game.hero.max_health += randint(10,20)
+        self.game.hero.health = self.game.hero.max_health
 
 
         

@@ -40,6 +40,7 @@ class Game():
     def new(self): #ny runde
         self.all_sprites = pg.sprite.Group()
         self.enemy_group = pg.sprite.Group()
+        self.food_group = pg.sprite.Group()
 
         self.hero = Player(self)
         self.all_sprites.add(self.hero)
@@ -87,6 +88,11 @@ class Game():
                 for hit in self.hits:
                     self.spawn += 1
                 self.hits[0].enemyhealth -= 10
+
+            food_hit = pg.sprite.spritecollide(self.hero, self.food_group, True)
+            if food_hit:
+                food_hit[0].give_health()
+                self.text_hp = self.comic_sans30.render("HP: " + str(self.hero.health), False, self.color)
             
             
             if self.hits:
@@ -103,7 +109,13 @@ class Game():
                 enemy = Enemy()
                 self.all_sprites.add(enemy)
                 self.enemy_group.add(enemy)
-            self.screen.blit(text_hp, (10,10))
+                self.screen.blit(text_hp, (10,10))
+
+            if len(self.food_group) < 1:
+                food = Food()
+                self.all_sprites.add(food)
+                self.food_group.add(food)
+                self.screen.blit(text_hp, (10,10))               
 
        
 
