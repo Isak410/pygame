@@ -13,6 +13,8 @@ dead_screen = pg.transform.scale(dead_screen, (500,500))
 class Game():
     def __init__(self): #kjører når vi starter spillet
         pg.init()
+        dead_screen = pg.image.load("dead_screen.jpg")
+        dead_screen = pg.transform.scale(dead_screen, (500,500))
         self.WHITE = (255,255,255)
         self.CYAN = (0,255,255)
         self.BLACK = (0,0,0)
@@ -91,8 +93,8 @@ class Game():
 
             food_hit = pg.sprite.spritecollide(self.hero, self.food_group, True)
             if food_hit:
-                food_hit[0].give_health()
-                self.text_hp = self.comic_sans30.render("HP: " + str(self.hero.health), False, self.color)
+                #food_hit[0].give_life()
+                self.text_hp = self.comic_sans30.render("HP: " + str(self.hero.life), False, self.LIGHT_GRAY)
             
             
             if self.hits:
@@ -105,14 +107,14 @@ class Game():
 
 
             #lag nye fiender
-            if len(self.enemy_group) < 8:
+            if len(self.enemy_group) < 10:
                 enemy = Enemy()
                 self.all_sprites.add(enemy)
                 self.enemy_group.add(enemy)
                 self.screen.blit(text_hp, (10,10))
 
             if len(self.food_group) < 1:
-                food = Food()
+                food = Food(self)
                 self.all_sprites.add(food)
                 self.food_group.add(food)
                 self.screen.blit(text_hp, (10,10))               
