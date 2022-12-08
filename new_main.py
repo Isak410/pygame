@@ -25,6 +25,8 @@ class Game():
         self.i = 0
         self.WIDTH = 1600
         self.HEIGTH = 800
+
+        foodY = 5
         
         self.screen = pg.display.set_mode((1600,800))
         self.bg = pg.image.load("Space Background.png").convert_alpha()
@@ -47,6 +49,8 @@ class Game():
         self.hero = Player(self)
         self.all_sprites.add(self.hero)
 
+        self.food = Food(self)
+
         self.i = 0
         self.enemy = Enemy()
         self.enemy2 = Enemy2()
@@ -67,6 +71,8 @@ class Game():
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     playing = False
+
+            
     
             self.screen.blit(self.bg, (self.i,0)) # tegner bakgrunn
             self.screen.blit(self.bg,(self.WIDTH+self.i,0))
@@ -93,8 +99,10 @@ class Game():
 
             food_hit = pg.sprite.spritecollide(self.hero, self.food_group, True)
             if food_hit:
-                #food_hit[0].give_life()
+                self.hero.life += 10
                 self.text_hp = self.comic_sans30.render("HP: " + str(self.hero.life), False, self.LIGHT_GRAY)
+
+            self.food_group 
             
             
             if self.hits:
@@ -111,15 +119,22 @@ class Game():
                 enemy = Enemy()
                 self.all_sprites.add(enemy)
                 self.enemy_group.add(enemy)
-                self.screen.blit(text_hp, (10,10))
+            
 
-            if len(self.food_group) < 1:
+            if len(self.food_group) < 2:
                 food = Food(self)
                 self.all_sprites.add(food)
                 self.food_group.add(food)
-                self.screen.blit(text_hp, (10,10))               
 
-       
+            
+            if self.food.pos.x < 1:
+                self.food.pos.x == 1800
+            
+            
+            
+            self.screen.blit(text_hp, (10,10))               
+
+            
 
             pg.display.update()    
             

@@ -12,6 +12,7 @@ enemy_img = pg.transform.scale(enemy_img, (70,70))
 cake_img = pg.image.load("cake_img.png")
 cake_img = pg.transform.scale(cake_img, (50, 50))
 
+
 player_left_img = pg.transform.flip(player_img, True, False)
 
 class Player(pg.sprite.Sprite):
@@ -99,11 +100,16 @@ class Food(pg.sprite.Sprite):
         self.game = game
         self.image = cake_img
         self.rect = self.image.get_rect()
-        self.pos = vec(500, randint(0,700)) # start posisjon
+        self.pos = vec(1600, randint(0,800)) # start posisjon
         self.rect.center = self.pos
 
     def update(self):
         self.rect.center = self.pos
+        self.pos.x -= 6
+
+        if self.pos.x < 1:
+            self.pos.x == 1800
+    
 
     #def give_health(self):
         #self.game.hero.max_health += 10
