@@ -44,6 +44,7 @@ class Game():
     def new(self): #ny runde
         self.all_sprites = pg.sprite.Group()
         self.enemy_group = pg.sprite.Group()
+        self.enemy_group2 = pg.sprite.Group()
         self.food_group = pg.sprite.Group()
 
         self.hero = Player(self)
@@ -115,13 +116,18 @@ class Game():
 
 
             #lag nye fiender
-            if len(self.enemy_group) < 10:
+            if len(self.enemy_group) < 6:
                 enemy = Enemy()
                 self.all_sprites.add(enemy)
                 self.enemy_group.add(enemy)
+
+            if len(self.enemy_group2) < 5:
+                enemy2 = Enemy2()
+                self.all_sprites.add(enemy2)
+                self.enemy_group.add(enemy2)
             
 
-            if len(self.food_group) < 2:
+            if len(self.food_group) < 3:
                 food = Food(self)
                 self.all_sprites.add(food)
                 self.food_group.add(food)

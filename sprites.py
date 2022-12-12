@@ -80,9 +80,13 @@ class Enemy2(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.image = enemy_img
         self.rect = self.image.get_rect()     #hitbox
-        self.pos = vec(randint(0,800), -100)
+        self.pos = vec(1700,randint(0,600))
         self.rect.center = self.pos
         self.speed = 3
+        self.enemyhealth = 100
+
+        if self.enemyhealth <= 0:
+            print("nokka")
 
     def update(self):
         self.rect.center = self.pos # holder rect på player hver frame
@@ -108,7 +112,8 @@ class Food(pg.sprite.Sprite):
         self.pos.x -= 6
 
         if self.pos.x < 1:
-            self.pos.x == 1800
+            self.pos.x = 1900
+            self.pos.y = randint(0,800)
     
 
     #def give_health(self):
