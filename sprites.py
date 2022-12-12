@@ -9,6 +9,10 @@ player_img = pg.transform.scale(player_img, (80,80))
 enemy_img = pg.image.load("enemy.PNG")
 enemy_img = pg.transform.scale(enemy_img, (70,70))
 
+enemy2_img = pg.image.load("solider.PNG")
+enemy2_img = pg.transform.scale(enemy2_img, (100,100))
+enemy2_img = pg.transform.flip(enemy2_img,True,False)
+
 cake_img = pg.image.load("cake_img.png")
 cake_img = pg.transform.scale(cake_img, (50, 50))
 
@@ -57,7 +61,7 @@ class Enemy(pg.sprite.Sprite):
         self.rect = self.image.get_rect()     #hitbox
         self.pos = vec(1700,randint(0,600))
         self.rect.center = self.pos
-        self.speed = 3
+        self.speed = 5
         self.enemyhealth = 100
 
         if self.enemyhealth <= 0:
@@ -78,23 +82,26 @@ class Enemy(pg.sprite.Sprite):
 class Enemy2(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        self.image = enemy_img
+        self.image = enemy2_img
         self.rect = self.image.get_rect()     #hitbox
-        self.pos = vec(1700,randint(0,600))
+        self.pos = vec(randint(0,1700),-125)
         self.rect.center = self.pos
         self.speed = 3
         self.enemyhealth = 100
 
-        if self.enemyhealth <= 0:
-            print("nokka")
+      
 
     def update(self):
         self.rect.center = self.pos # holder rect på player hver frame
         self.pos.y += 4
 
-        if self.pos.y < 900:
+        if self.pos.y > 900:
             self.pos.y = -125
-            self.pos.x = randint(100,700)
+            self.pos.x = randint(0,1600)
+        if self.enemyhealth <= 0:
+            print("nokka")
+
+
 
 class Food(pg.sprite.Sprite):
 

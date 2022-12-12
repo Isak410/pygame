@@ -124,7 +124,7 @@ class Game():
             if len(self.enemy_group2) < 5:
                 enemy2 = Enemy2()
                 self.all_sprites.add(enemy2)
-                self.enemy_group.add(enemy2)
+                self.enemy_group2.add(enemy2)
             
 
             if len(self.food_group) < 3:
