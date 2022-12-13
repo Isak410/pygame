@@ -2,7 +2,7 @@ import pygame as pg
 from sprites import *
 
 pg.mixer.init()
-pg.mixer.music.load('sang.mp3') 
+pg.mixer.music.load('sangmain.mp3') 
 
 pg.mixer.music.play(-1) 
 
@@ -98,6 +98,12 @@ class Game():
                     self.spawn += 1
                 self.hits[0].enemyhealth -= 10
 
+            self.hits1 = pg.sprite.spritecollide(self.hero, self.enemy_group2,dokill=True)
+            if self.hits1:
+                for hit in self.hits1:
+                    self.spawn += 1
+                self.hits1[0].enemyhealth -= 10
+
             food_hit = pg.sprite.spritecollide(self.hero, self.food_group, True)
             if food_hit:
                 self.hero.life += 10
@@ -107,6 +113,13 @@ class Game():
             
             
             if self.hits:
+                self.hero.life -=10
+                print (self.hero.life)
+                if self.hero.life <= 0:
+                    self.stop = True
+                    playing = False
+
+            if self.hits1:
                 self.hero.life -=10
                 print (self.hero.life)
                 if self.hero.life <= 0:
@@ -127,7 +140,7 @@ class Game():
                 self.enemy_group2.add(enemy2)
             
 
-            if len(self.food_group) < 3:
+            if len(self.food_group) < 1:
                 food = Food(self)
                 self.all_sprites.add(food)
                 self.food_group.add(food)
@@ -145,12 +158,15 @@ class Game():
             pg.display.update()    
             
         if self.stop:
+            pg.mixer.music.stop()
             self.game_stop()
 
       
     
 
     def game_stop(self):
+        pg.mixer.music.load('endmusic.mp3') 
+        pg.mixer.music.play(0)
         self.game_over = True
         while self.game_over:
             self.clock.tick(self.FPS)
@@ -164,8 +180,8 @@ class Game():
                         self.game_over = False 
                         self.startover = True
 
-
-
+            
+        
             self.screen.fill(self.LIGHT_GRAY)
             self.screen.blit(self.game_over_text,(415,600))  
             self.screen.blit(dead_screen, (550,25))
@@ -173,6 +189,10 @@ class Game():
             pg.display.update()
             
         if self.startover == True:
+            pg.mixer.music.stop()
+            pg.mixer.music.load('sangmain.mp3') 
+            pg.mixer.music.play(-1)
+
             self.new()
 
 
