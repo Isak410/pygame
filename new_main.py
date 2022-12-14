@@ -9,12 +9,24 @@ pg.mixer.music.play(-1)
 dead_screen = pg.image.load("dead_screen.jpg")
 dead_screen = pg.transform.scale(dead_screen, (500,500))
 
+#self.startsc()
+
+def startsc(self):
+    self.startsc = True
+    while self.startsc:
+        self.clock.tick(self.FPS)
+        self.startsc_text = self.comic_sans30.render("Easy = U, Normal = I, Hard = P", False, (self.DARKBLUE))
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.startsc = False
+                pg.quit()
+            
+    
 
 class Game():
     def __init__(self): #kjører når vi starter spillet
         pg.init()
-        dead_screen = pg.image.load("dead_screen.jpg")
-        dead_screen = pg.transform.scale(dead_screen, (500,500))
+        
         self.WHITE = (255,255,255)
         self.CYAN = (0,255,255)
         self.BLACK = (0,0,0)
@@ -55,7 +67,7 @@ class Game():
         self.i = 0
         self.enemy = Enemy()
         self.enemy2 = Enemy2()
-        self.enemy_group.add(self.enemy, self.enemy2)
+        self.enemy_group.add(self.enemy)
         self.tekst = pg.font.SysFont("Comic Sans MS", 30)
 
         self.stop = False
@@ -129,7 +141,7 @@ class Game():
 
 
             #lag nye fiender
-            if len(self.enemy_group) < 6:
+            if len(self.enemy_group) < 8:
                 enemy = Enemy()
                 self.all_sprites.add(enemy)
                 self.enemy_group.add(enemy)
