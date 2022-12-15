@@ -53,6 +53,14 @@ class Player(pg.sprite.Sprite):
         else:
             self.speed = 3
 
+        if self.pos.x < 35:
+            self.pos.x = 35
+        if self.pos.x > 1565:
+             self.pos.x = 1564
+        if self.pos.y < 31:
+            self.pos.y = 31
+        if self.pos.y > 765:
+            self.pos.y = 763
         
 class Enemy(pg.sprite.Sprite):
     def __init__(self):

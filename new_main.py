@@ -9,17 +9,6 @@ pg.mixer.music.play(-1)
 dead_screen = pg.image.load("dead_screen.jpg")
 dead_screen = pg.transform.scale(dead_screen, (500,500))
 
-#self.startsc()
-
-def startsc(self):
-    self.startsc = True
-    while self.startsc:
-        self.clock.tick(self.FPS)
-        self.startsc_text = self.comic_sans30.render("Easy = U, Normal = I, Hard = P", False, (self.DARKBLUE))
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                self.startsc = False
-                pg.quit()
             
     
 
@@ -34,9 +23,12 @@ class Game():
         self.BLUE = (0,0,255)
         self.LIGHT_GRAY = (200,196,196)
         self.DARKBLUE = (25, 25, 112)
+        self.BLUE = (0, 0, 255)
         self.i = 0
         self.WIDTH = 1600
         self.HEIGTH = 800
+
+        
 
         foodY = 5
         
@@ -63,7 +55,32 @@ class Game():
         self.all_sprites.add(self.hero)
 
         self.food = Food(self)
+        
+        self.enspawn = 1
+        self.tospawn = 1
+        self.trespawn = 1
+        
+        self.i = 0
+        self.enemy = Enemy()
+        self.enemy2 = Enemy2()
+        self.enemy_group.add(self.enemy)
+        self.tekst = pg.font.SysFont("Comic Sans MS", 30)
 
+        self.stop = False
+
+        self.startscreen()
+
+    def new1(self): #ny runde
+        self.all_sprites = pg.sprite.Group()
+        self.enemy_group = pg.sprite.Group()
+        self.enemy_group2 = pg.sprite.Group()
+        self.food_group = pg.sprite.Group()
+
+        self.hero = Player(self)
+        self.all_sprites.add(self.hero)
+
+        self.food = Food(self)
+        
         self.i = 0
         self.enemy = Enemy()
         self.enemy2 = Enemy2()
@@ -73,6 +90,44 @@ class Game():
         self.stop = False
 
         self.run()
+
+
+
+    def startscreen(self):
+        self.startsc = True
+        while self.startsc:
+            self.clock.tick(self.FPS)        
+            self.startsc_text = self.comic_sans30.render("Easy = U, Normal = I, Hard = P", False, (self.DARKBLUE))
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.startsc = False
+                    pg.quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_u:
+                        self.enspawn = 4
+                        self.tospawn = 3
+                        self.trespawn = 3
+                        self.startsc = False
+                        self.run()
+                    if event.key == pg.K_i:
+                        self.enspawn = 6
+                        self.tospawn = 5
+                        self.trespawn = 2
+                        self.startsc = False
+                        self.run()
+                    if event.key == pg.K_p:
+                        self.enspawn = 7
+                        self.tospawn = 7
+                        self.trespawn = 1
+                        self.startsc = False
+                        self.run()
+            
+            
+            
+            self.screen.fill(self.WHITE)
+            self.screen.blit(self.startsc_text,(380,600)) 
+            
+            pg.display.update()
 
     
 
@@ -137,22 +192,24 @@ class Game():
                 if self.hero.life <= 0:
                     self.stop = True
                     playing = False
+            
+            
 
 
 
             #lag nye fiender
-            if len(self.enemy_group) < 8:
+            if len(self.enemy_group) < self.enspawn:
                 enemy = Enemy()
                 self.all_sprites.add(enemy)
                 self.enemy_group.add(enemy)
 
-            if len(self.enemy_group2) < 5:
+            if len(self.enemy_group2) < self.tospawn:
                 enemy2 = Enemy2()
                 self.all_sprites.add(enemy2)
                 self.enemy_group2.add(enemy2)
             
 
-            if len(self.food_group) < 1:
+            if len(self.food_group) < self.trespawn:
                 food = Food(self)
                 self.all_sprites.add(food)
                 self.food_group.add(food)
@@ -182,21 +239,41 @@ class Game():
         self.game_over = True
         while self.game_over:
             self.clock.tick(self.FPS)
-            self.game_over_text = self.comic_sans30.render("Game over, click R to restart", False, (self.DARKBLUE))
+            self.game_over_text = self.comic_sans30.render("Easy = U, Normal = I, Hard = P", False, (self.DARKBLUE))
+            self.game_over_text1 = self.comic_sans30.render("GAME OVER", False, (self.DARKBLUE))
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.game_over = False
                     pg.quit()
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_r:  
-                        self.game_over = False 
+                    if event.key == pg.K_u:
+                        self.enspawn = 4
+                        self.tospawn = 3
+                        self.trespawn = 3
+                        self.game_over = False
                         self.startover = True
+                        
+                    if event.key == pg.K_i:
+                        self.enspawn = 6
+                        self.tospawn = 5
+                        self.trespawn = 2
+                        self.game_over = False
+                        self.startover = True
+                        
+                    if event.key == pg.K_p:
+                        self.enspawn = 7
+                        self.tospawn = 7
+                        self.trespawn = 1
+                        self.game_over = False
+                        self.startover = True
+                        
 
             
         
             self.screen.fill(self.LIGHT_GRAY)
-            self.screen.blit(self.game_over_text,(415,600))  
-            self.screen.blit(dead_screen, (550,25))
+            self.screen.blit(self.game_over_text,(380,600))  
+            self.screen.blit(self.game_over_text1,(645,12))
+            self.screen.blit(dead_screen, (580,100))
 
             pg.display.update()
             
@@ -205,7 +282,7 @@ class Game():
             pg.mixer.music.load('sangmain.mp3') 
             pg.mixer.music.play(-1)
 
-            self.new()
+            self.new1()
 
 
 g = Game()
