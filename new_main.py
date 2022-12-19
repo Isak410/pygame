@@ -28,6 +28,8 @@ class Game():
         self.WIDTH = 1600
         self.HEIGTH = 800
 
+        pg.display.set_caption('ok')
+
         
 
         foodY = 5
